@@ -71,6 +71,7 @@ public class BoardController {
 
     public void updateAndRepaintBoard(){
         boardView.getBoardPanel().updateBoard(boardModel.getBoard());
+        boardView.updateTurnLabel("Player " + boardModel.getCurrentPlayer() + "'s Turn");
         boardView.getBoardPanel().repaint();
     }
 
