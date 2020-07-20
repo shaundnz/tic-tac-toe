@@ -71,11 +71,11 @@ public class BoardView extends JFrame {
                 for (int col = 0; col < Board.BOARD_SIZE; col ++){
                     if (board[row][col] == 1){
                         g.setColor(Color.RED);
-                        g.fillOval(col * offset + 10, row * offset + 10, offset - 20, offset - 20);
+                        g.fillOval(col * offset + 15, row * offset + 15, offset - 20, offset - 20);
                     }
                     else if (board[row][col] == 2){
                         g.setColor(Color.BLUE);
-                        g.fillOval(col * offset + 10, row * offset + 10, offset - 20, offset - 20);
+                        g.fillOval(col * offset + 15, row * offset + 15, offset - 20, offset - 20);
                     }
                 }
             }
@@ -97,5 +97,10 @@ public class BoardView extends JFrame {
 
     public void showErrorMessage(String message){
         JOptionPane.showMessageDialog(this, message);
+    }
+
+    public int showJOptionPanel(String message){
+        String[] options = {"Play again?", "Quit"};
+        return JOptionPane.showOptionDialog(null, message, "Game over", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, null);
     }
 }

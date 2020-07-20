@@ -21,17 +21,57 @@ public class BoardController {
             // Player makes move, then checks for winner
             if (!boardModel.isGameOver()) {
                 boolean playerMove = boardModel.move(i, j);
-                boardView.getBoardPanel().updateBoard(boardModel.getBoard());
-                boardView.getBoardPanel().repaint();
-                System.out.println(boardModel.isGameOver());
-                if (playerMove && !boardModel.isGameOver()){
+                updateAndRepaintBoard();
+                if (playerMove && !boardModel.isGameOver()) {
                     // AI Makes move
                     MiniMax.miniMax(boardModel, 0, true);
-                    boardView.getBoardPanel().updateBoard(boardModel.getBoard());
-                    boardView.getBoardPanel().repaint();
+                    updateAndRepaintBoard();
+                    endGameScreen();
+                }
+                else{
+                    endGameScreen();
                 }
             }
         }
+
+        private void endGameScreen(){
+            if (boardModel.isGameOver()){
+                int winner = boardModel.getWinner();
+                String message;
+                switch (winner){
+                    case 0:
+                        // Draw
+                        message = "Its a draw!";
+                        break;
+                    case 1:
+                        // Player 1 wins
+                        message = "Player One has won!";
+                        break;
+                    case 2:
+                        // AI Wins
+                        message = "Player Two has won!";
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected winner value: " + winner);
+                }
+                int option = boardView.showJOptionPanel(message);
+                if (option == 0){
+                    boardModel.newGame();
+                    updateAndRepaintBoard();
+                }
+                else if (option == 1){
+                    System.exit(1);
+                }
+                else {
+                    throw new IllegalStateException("Unexpected option value: " + option);
+                }
+            }
+        }
+    }
+
+    public void updateAndRepaintBoard(){
+        boardView.getBoardPanel().updateBoard(boardModel.getBoard());
+        boardView.getBoardPanel().repaint();
     }
 
     public static void main(String[] args){
